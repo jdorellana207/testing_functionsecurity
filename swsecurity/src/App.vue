@@ -20,6 +20,7 @@ export default {
   },
   methods: {
     async postData() {
+      axios.defaults.withCredentials = true; // Enable cookies
       const msalConfig = {
         auth: {
           clientId: "c91bcf0f-95db-4d61-996e-5e8a717a6839",
