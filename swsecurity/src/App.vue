@@ -2,7 +2,10 @@
   <form @submit.prevent="postData">
     <input type="text" v-model="name">
     <button type="submit">Submit</button>
-  </form>
+    <div>
+    <p v-if="responseData">{{ responseData }}</p>
+    <p v-else>No response data</p>
+  </div>  </form>
 </template>
 
 <script>
@@ -21,6 +24,7 @@ export default {
       })
         .then(response => {
           // Handle the API response here
+          this.responseData = response.data;
           console.log(response.data);
         })
         .catch(error => {
