@@ -3,7 +3,7 @@
     <input type="text" v-model="name">
     <button type="submit">Submit</button>
     <div>
-      <p v-if="response">Response: {{ response }}</p>
+      <p v-if="response">{{ response }}</p>
   </div>  </form>
 </template>
 
@@ -50,7 +50,7 @@ export default {
           name: "josue"
         };
 
-        const response = await axios.post("https://fa-testing-functionsecurity.azurewebsites.net/api/httptrigger_security", data, config);
+        const response = await axios.post("https://fa-testing-functionsecurity.azurewebsites.net/api/httptrigger_security", JSON.stringify(data), config);
         this.response = response.data;
       } catch (error) {
         console.log(error);
