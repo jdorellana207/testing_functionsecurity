@@ -46,7 +46,7 @@ export default {
         };
 
         const data = {
-          name: this.name
+          name: "josue"
         };
 
         const response = await axios.post("https://fa-testing-functionsecurity.azurewebsites.net/api/httptrigger_security", data, config);
