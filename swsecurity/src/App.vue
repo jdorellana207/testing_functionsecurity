@@ -3,15 +3,62 @@
     <input type="text" v-model="name">
     <button type="submit">Submit</button>
     <div>
-    <p v-if="responseData">{{ responseData }}</p>
-    <p v-else>No response data</p>
+      <p v-if="response">Response: {{ response }}</p>
   </div>  </form>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
+import { PublicClientApplication } from "@azure/msal-browser";
 
 export default {
+  name: "MyComponent",
+  data() {
+    return {
+      response: null
+    };
+  },
+  methods: {
+    async postData() {
+      const msalConfig = {
+        auth: {
+          clientId: "c91bcf0f-95db-4d61-996e-5e8a717a6839",
+          authority: "https://login.microsoftonline.com/f7b226f1-9f32-4abf-8727-ed765898b168",
+          redirectUri: "https://salmon-wave-0cfcc961e.2.azurestaticapps.net" // The URL of your Vue.js application
+        }
+      };
+
+      const msalInstance = new PublicClientApplication(msalConfig);
+
+      const loginRequest = {
+        scopes: ["api://c91bcf0f-95db-4d61-996e-5e8a717a6839/staticwebapp"]
+      };
+
+      try {
+        const authResult = await msalInstance.loginPopup(loginRequest);
+        const accessToken = authResult.accessToken;
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+          }
+        };
+
+        const data = {
+          name: this.name
+        };
+
+        const response = await axios.post("https://fa-testing-functionsecurity.azurewebsites.net/api/httptrigger_security", data, config);
+        this.response = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+};
+
+/*export default {
   data() {
     return {
       responseData: ''
@@ -33,5 +80,5 @@ export default {
         });
     }
   }
-}
+}*/
 </script>
