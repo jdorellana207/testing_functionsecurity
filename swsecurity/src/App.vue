@@ -1,26 +1,33 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome JOSUEE to Your Vue.js App"/>
+  <form @submit.prevent="postData">
+    <input type="text" v-model="name">
+    <button type="submit">Submit</button>
+  </form>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios';
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      name: ''
+    }
+  },
+  methods: {
+    postData() {
+      axios.post('https://fa-testing-functionsecurity.azurewebsites.net/api/httptrigger_security', {
+        name: this.name
+      })
+        .then(response => {
+          // Handle the API response here
+          console.log(response.data);
+        })
+        .catch(error => {
+          // Handle any errors here
+          console.error(error);
+        });
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
