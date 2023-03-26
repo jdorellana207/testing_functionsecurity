@@ -31,7 +31,7 @@ export default {
       const msalInstance = new PublicClientApplication(msalConfig);
 
       const loginRequest = {
-        scopes: ["api://c91bcf0f-95db-4d61-996e-5e8a717a6839/staticwebapp"]
+        scopes: ["api://c91bcf0f-95db-4d61-996e-5e8a717a6839/staticwebapp2"]
       };
 
       try {
